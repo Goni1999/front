@@ -1,0 +1,317 @@
+require('dotenv').config();
+
+if (!process.env.SECRET_KEY) {
+    throw new Error("FATAL ERROR: SECRET_KEY is missing in .env");
+  }
+
+const express = require('express');
+const mysql = require('mysql2');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const app = express();
+const PORT = process.env.PORT || 3001; // Use .env port or default
+const SECRET_KEY = process.env.SECRET_KEY; // Get from .env
+
+// Database connection using .env variables (add these to your .env)
+const db = mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '', // From .env
+    database: process.env.DB_NAME || 'user_auth',
+    multipleStatements: true
+});
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+
+
+
+
+const connectDB = () => {
+    db.connect(err => {
+        if (err) {
+            console.error('Error connecting to MySQL:', err);
+            setTimeout(connectDB, 5000); // Try reconnecting after 5 seconds
+        } else {
+            console.log('✅ Connected to MySQL');
+        }
+    });
+};
+
+connectDB(); // Initial connection
+
+// Token Generation
+const generateToken = (user) => {
+    return jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role.trim().toLowerCase(),
+            balances: {
+                BTC: user.BTC || 0,
+                ETH: user.ETH || 0,
+                ADA: user.ADA || 0,
+                XRP: user.XRP || 0,
+                DOGE: user.DOGE || 0,
+                BNB: user.BNB || 0,
+                SOL: user.SOL || 0,
+                DOT: user.DOT || 0,
+                total: user.total || 0,
+            },
+        },
+        SECRET_KEY,
+        { expiresIn: '1h' }
+    );
+};
+
+// JWT Authentication Middleware
+const authenticateJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: 'Unauthorized: No token provided' });
+
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) {
+            console.log("🚨 JWT Verification Failed:", err.message);
+            return res.status(403).json({ error: 'Forbidden: Invalid token' });
+        }
+
+        console.log("✅ Decoded JWT Payload:", user);
+        req.user = user;
+        next();
+    });
+};
+
+// Role Verification Middleware
+const checkRole = (requiredRole) => {
+    return (req, res, next) => {
+        console.log(`Checking Role - Required: '${requiredRole}', User Role: '${req.user?.role}'`);
+        if (!req.user || !req.user.role) return res.status(403).json({ error: 'Forbidden: No role found' });
+
+        if (req.user.role.trim().toLowerCase() !== requiredRole.trim().toLowerCase()) {
+            console.log(`🚨 Role mismatch - Blocking access! (User Role: '${req.user.role}')`);
+            return res.status(403).json({ error: 'Forbidden: Insufficient permissions' });
+        }
+
+        console.log("✅ Role check passed - Access granted!");
+        next();
+    };
+};
+
+// ✅ Debugging Log to Check All Registered Routes
+app._router.stack.forEach((route) => {
+    if (route.route && route.route.path) {
+        console.log(`🛠 Registered Route: ${route.route.path}`);
+    }
+});
+
+// ✅ Registration Route
+app.post('/auth/register', async (req, res) => {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) return res.status(400).send({ error: 'All fields are required' });
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const query = 'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, "user")';
+
+        db.query(query, [name, email, hashedPassword], (err, results) => {
+            if (err) return res.status(500).send({ error: 'Database error' });
+            res.status(201).send({ message: 'User registered successfully' });
+        });
+    } catch (err) {
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+// ✅ Login Route (Now includes balances in JWT)
+app.post('/auth/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) return res.status(400).send({ error: 'All fields are required' });
+
+    const query = 'SELECT * FROM users WHERE email = ?';
+    db.query(query, [email], async (err, results) => {
+        if (err) return res.status(500).send({ error: 'Database error' });
+        if (results.length === 0) return res.status(404).send({ error: 'Invalid email or password' });
+
+        const user = results[0];
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return res.status(401).send({ error: 'Invalid email or password' });
+
+        const token = generateToken(user);
+        res.send({ message: 'Login successful', user, token });
+    });
+});
+
+// ✅ Get All Users (Admin Only)
+app.get('/api/users', authenticateJWT, checkRole('admin'), (req, res) => {
+    console.log("✅ Admin access granted to /api/users");
+
+    const query = 'SELECT id, name, email, role, BTC, ETH, ADA, XRP, DOGE, BNB, SOL, DOT, total FROM users';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).send({ error: 'Database error' });
+        res.send(results);
+    });
+});
+
+// ✅ Get Reports (Admin Only)
+app.get('/api/reports', authenticateJWT, checkRole('admin'), (req, res) => {
+    console.log("✅ Admin access granted to /api/reports");
+
+    const query = 'SELECT * FROM reports';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).send({ error: 'Database error' });
+        res.send(results);
+    });
+});
+
+// ✅ Update User Balances (Admin only)
+app.put('/api/users/:id', authenticateJWT, checkRole('admin'), (req, res) => {
+    const userId = req.params.id;
+    const { BTC, ETH, ADA, XRP, DOGE, BNB, SOL, DOT, total } = req.body;
+
+    const query = `
+        UPDATE users
+        SET BTC = ?, ETH = ?, ADA = ?, XRP = ?, DOGE = ?, BNB = ?, SOL = ?, DOT = ?, total = ?
+        WHERE id = ?
+    `;
+
+    db.query(query, [BTC, ETH, ADA, XRP, DOGE, BNB, SOL, DOT, total, userId], (err, results) => {
+        if (err) return res.status(500).send({ error: 'Database error' });
+        if (results.affectedRows === 0) return res.status(404).send({ error: 'User not found' });
+
+        res.send({ message: 'User updated successfully' });
+    });
+});
+
+// ✅ Get All Investments (Admin Only)
+app.get('/api/investments', authenticateJWT, checkRole('admin'), (req, res) => {
+    console.log("✅ Admin access granted to /api/investments");
+
+    const query = 'SELECT * FROM investments';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send({ error: 'Database error' });
+        }
+        res.send(results);
+    });
+});
+
+// ✅ Get All Contact Enquiries (Admin Only)
+app.get('/api/contact', authenticateJWT, checkRole('admin'), (req, res) => {
+    console.log("✅ Admin access granted to /api/contact");
+
+    const query = 'SELECT * FROM enquiries';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send({ error: 'Database error' });
+        }
+        res.send(results);
+    });
+});
+
+app.put('/api/trade', authenticateJWT, (req, res) => {
+    const { userId, fromCurrency, toCurrency, amount, conversionRate } = req.body;
+
+    if (!userId || !fromCurrency || !toCurrency || !amount || !conversionRate) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Convert amount based on the exchange rate
+    const convertedAmount = amount * conversionRate;
+
+    // Ensure user has enough balance to trade
+    const checkBalanceQuery = `SELECT ${fromCurrency} FROM users WHERE id = ?`;
+    db.query(checkBalanceQuery, [userId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const currentBalance = results[0][fromCurrency];
+        if (currentBalance < amount) {
+            return res.status(400).json({ error: `Insufficient ${fromCurrency} balance` });
+        }
+
+        // Update balances
+        const tradeQuery = `
+            UPDATE users
+            SET ${fromCurrency} = ${fromCurrency} - ?, ${toCurrency} = ${toCurrency} + ?
+            WHERE id = ?
+        `;
+
+        db.query(tradeQuery, [amount, convertedAmount, userId], (err, result) => {
+            if (err) {
+                console.error('Error updating balances:', err);
+                return res.status(500).send({ error: 'Trade execution failed' });
+            }
+            res.json({ message: 'Trade successful', convertedAmount });
+        });
+    });
+});
+
+// ✅ Get User Balances by ID (Fix 404 Error)
+app.get('/api/users/:id', authenticateJWT, (req, res) => {
+    const userId = req.params.id;
+
+    console.log("🔍 Fetching user balances for ID:", userId); // ✅ Debugging Log
+
+    const query = `SELECT BTC, ETH, ADA, XRP, DOGE, BNB, SOL, DOT, total FROM users WHERE id = ?`;
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('❌ Database error:', err);
+            return res.status(500).send({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            console.warn("⚠️ No user found for ID:", userId); // ✅ Debugging Log
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        console.log("✅ User Balances:", results[0]); // ✅ Debugging Log
+        res.json(results[0]); // Return user balances
+    });
+});
+
+// ✅ Update User's Total Balance in `users` Table
+app.put('/api/update-total/:id', authenticateJWT, (req, res) => {
+    const userId = req.params.id;
+    const { total } = req.body;
+
+    if (!total || isNaN(total)) {
+        return res.status(400).send({ error: "Invalid total value" });
+    }
+
+    const query = `UPDATE users SET total = ? WHERE id = ?`;
+
+    db.query(query, [total, userId], (err, results) => {
+        if (err) {
+            console.error("❌ Database error:", err);
+            return res.status(500).send({ error: "Database error" });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send({ error: "User not found" });
+        }
+
+        console.log(`✅ Updated total balance for user ${userId}: $${total}`);
+        res.send({ message: "Total balance updated successfully", total });
+    });
+});
+
+// ✅ Start the Server
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+});
