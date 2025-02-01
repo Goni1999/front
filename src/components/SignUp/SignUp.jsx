@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignUp.scss';
 import axios from 'axios';
+import './SignUp.scss';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
@@ -45,33 +45,35 @@ const SignUp = () => {
         }
 
         try {
-            // Register user
-            const registerResponse = await axios.post('http://localhost:3001/auth/register', {
+            // ✅ Register user
+            const registerResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
             });
+
             alert(registerResponse.data.message);
 
-            // Automatically log in the user after successful registration
-            const loginResponse = await axios.post('http://localhost:3001/auth/login', {
+            // ✅ Automatically log in the user after registration
+            const loginResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
                 email: formData.email,
                 password: formData.password,
             });
 
-            const user = loginResponse.data.user;
+            const { user, token } = loginResponse.data;
 
-            // Save user data in localStorage or sessionStorage
-            if (rememberMe) {
-                localStorage.setItem('user', JSON.stringify(user));
-            } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-            }
+            // ✅ Store token & user data
+            const storage = rememberMe ? localStorage : sessionStorage;
+            storage.setItem('token', token);
+            storage.setItem('user', JSON.stringify(user));
 
-            // Redirect user to the appropriate dashboard
+            console.log("✅ Token Saved:", token);
+            console.log("✅ User Logged In:", user);
+
+            // ✅ Redirect user based on role
             navigate(user.role === 'admin' ? '/admin-dashboard' : '/dashboard');
         } catch (error) {
-            console.error('Sign-up error:', error);
+            console.error('❌ Sign-up error:', error.response?.data || error.message);
             alert(error.response?.data?.error || 'An error occurred during sign-up');
         }
     };
@@ -82,47 +84,15 @@ const SignUp = () => {
                 <div className="signup-logo">
                     <img src="images/Logo.png" alt="logo" />
                 </div>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
+                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
                 {passwordError && <p className="error-message">{passwordError}</p>}
-                <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                />
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
                 {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
                 <div className="signup-links">
                     <label className="remember-me">
-                        <input
-                            type="checkbox"
-                            checked={rememberMe}
-                            onChange={handleRememberMeChange}
-                        />
+                        <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange} />
                         Remember me
                     </label>
                 </div>
