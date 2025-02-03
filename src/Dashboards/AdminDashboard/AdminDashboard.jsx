@@ -77,7 +77,7 @@ const AdminDashboard = () => {
       const headers = { Authorization: `Bearer ${storedToken}` };
       const userData = editedUsers[userId];
 
-      await axios.put(`http://localhost:3001/api/users/${userId}`, userData, { headers });
+      await axios.put(`localhost:3001/api/users/${userId}`, userData, { headers });
 
       console.log(`✅ User ${userId} updated successfully`);
       alert('User balance updated successfully!');

@@ -24,7 +24,11 @@ const db = mysql.createConnection({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT'],
+    credentials: true
+}));
 app.use(express.json());
 
 
@@ -104,6 +108,51 @@ const checkRole = (requiredRole) => {
     };
 };
 
+app.post('/auth/register', async (req, res) => {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ 
+            error: 'All fields are required',
+            missing: ['name', 'email', 'password'].filter(f => !req.body[f])
+        });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const query = 'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, "user")';
+
+        db.query(query, [name, email, hashedPassword], (err, results) => {
+            if (err) {
+                // Handle duplicate email error using MySQL error code
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return res.status(409).json({
+                        error: 'Email already registered',
+                        code: 'EMAIL_EXISTS'
+                    });
+                }
+                console.error("❌ Database error:", err);
+                return res.status(500).json({ 
+                    error: 'Registration failed',
+                    code: 'DB_ERROR'
+                });
+            }
+
+            res.status(201).json({
+                message: 'Registration successful',
+                userId: results.insertId,
+                nextStep: '/auth/login'
+            });
+        });
+    } catch (err) {
+        console.error("❌ Registration error:", err);
+        res.status(500).json({
+            error: 'Internal server error',
+            code: 'SERVER_ERROR'
+        });
+    }
+});
+
 // ✅ Debugging Log to Check All Registered Routes
 app._router.stack.forEach((route) => {
     if (route.route && route.route.path) {
@@ -111,24 +160,50 @@ app._router.stack.forEach((route) => {
     }
 });
 
-// ✅ Registration Route
-app.post('/auth/register', async (req, res) => {
-    const { name, email, password } = req.body;
+// ✅ Report Case Submission (Public)
+app.post('/api/reports', (req, res) => {
+    const { name, surname, email, description } = req.body;
 
-    if (!name || !email || !password) return res.status(400).send({ error: 'All fields are required' });
-
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const query = 'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, "user")';
-
-        db.query(query, [name, email, hashedPassword], (err, results) => {
-            if (err) return res.status(500).send({ error: 'Database error' });
-            res.status(201).send({ message: 'User registered successfully' });
-        });
-    } catch (err) {
-        res.status(500).send({ error: 'Internal server error' });
+    if (!name || !surname || !email || !description) {
+        return res.status(400).json({ error: "All fields are required" });
     }
+
+    const query = `
+        INSERT INTO reports (name, surname, email, description, created_at)
+        VALUES (?, ?, ?, ?, NOW())
+    `;
+
+    db.query(query, [name, surname, email, description], (err, result) => {
+        if (err) {
+            console.error("❌ Database error:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(201).json({ message: "Report submitted successfully!", reportId: result.insertId });
+    });
 });
+
+// ✅ Contact Enquiry Submission (Public)
+app.post('/api/contact', (req, res) => {
+    const { enquiryType, fullName, email, phone, country, scamWebsite, lostMoney, message } = req.body;
+
+    if (!enquiryType || !fullName || !email || !phone || !country || !message) {
+        return res.status(400).json({ error: "All required fields must be filled" });
+    }
+
+    const query = `
+        INSERT INTO enquiries (enquiryType, fullName, email, phone, country, scamWebsite, lostMoney, message, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    `;
+
+    db.query(query, [enquiryType, fullName, email, phone, country, scamWebsite || "", lostMoney || "", message], (err, result) => {
+        if (err) {
+            console.error("❌ Database error:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.status(201).json({ message: "Enquiry submitted successfully!", enquiryId: result.insertId });
+    });
+});
+
 
 // ✅ Login Route (Now includes balances in JWT)
 app.post('/auth/login', (req, res) => {
@@ -190,6 +265,29 @@ app.put('/api/users/:id', authenticateJWT, checkRole('admin'), (req, res) => {
         res.send({ message: 'User updated successfully' });
     });
 });
+
+app.post('/api/investments', (req, res) => {
+    const { first_name, last_name, phone_country_code, phone_number, email, investment_amount, details } = req.body;
+
+    if (!first_name || !last_name || !phone_country_code || !phone_number || !email || !investment_amount) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const query = `
+        INSERT INTO investments (first_name, last_name, phone_country_code, phone_number, email, investment_amount, details)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(query, [first_name, last_name, phone_country_code, phone_number, email, investment_amount, details || ""], (err, result) => {
+        if (err) {
+            console.error("❌ Database error:", err);
+            return res.status(500).json({ error: "Database error" }); // ✅ Ensure JSON response
+        }
+        res.status(201).json({ message: "Investment submitted successfully!", investmentId: result.insertId });
+    });
+});
+
+
 
 // ✅ Get All Investments (Admin Only)
 app.get('/api/investments', authenticateJWT, checkRole('admin'), (req, res) => {

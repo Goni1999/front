@@ -25,7 +25,7 @@ const Login = () => {
       const response = await axios.post(
         'http://localhost:3001/auth/login',
         formData,
-        { validateStatus: (status) => status < 500 }
+        { validateStatus: (status) => status < 18000 }
       );
 
       console.log("🔍 Login Response:", response.data); // ✅ Debugging log

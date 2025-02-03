@@ -14,20 +14,26 @@ const InvestmentForm = ({ loggedInEmail }) => {
 
   useEffect(() => {
     if (loggedInEmail) {
-      // Fetch user details to autofill form
-      fetch(`http://localhost:3001/api/user/${loggedInEmail}`)
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        
+        fetch(`http://capital-trust.org/api/users/${loggedInEmail}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
         .then((response) => response.json())
         .then((data) => {
-          setFormData((prevData) => ({
-            ...prevData,
-            first_name: data.name.split(' ')[0] || '',
-            last_name: data.name.split(' ')[1] || '',
-            email: data.email || '',
-          }));
+            if (data.name) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    first_name: data.name.split(' ')[0] || '',
+                    last_name: data.name.split(' ')[1] || '',
+                    email: data.email || '',
+                }));
+            }
         })
         .catch((error) => console.error('Error fetching user data:', error));
     }
-  }, [loggedInEmail]);
+}, [loggedInEmail]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,22 +43,32 @@ const InvestmentForm = ({ loggedInEmail }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/investments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Investment submitted:', data);
-        alert(data.message || 'Investment submitted successfully!');
-      })
-      .catch((error) => console.error('Error submitting investment:', error));
-  };
+
+    try {
+        const response = await fetch('http://localhost:3001/api/investments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+
+        // ✅ Check if response is JSON
+        const contentType = response.headers.get("content-type");
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            alert(data.message || 'Investment submitted successfully!');
+        } else {
+            throw new Error("Received invalid response (not JSON)");
+        }
+    } catch (error) {
+        console.error('❌ Error submitting investment:', error);
+        alert(error.message || 'Failed to submit investment.');
+    }
+};
 
   const handleIncreaseInvestment = () => {
     setFormData({

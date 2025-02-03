@@ -63,22 +63,22 @@ const Home = () => {
     <div className="text-center">
     <h1>Important Notice Regarding Crypto Scams and Asset Recovery</h1>
     <hr />
-    <p>We understand how devastating it can be to fall victim to a crypto scam, and we are committed to helping you recover your stolen assets through our thorough investigation process. However, we would like to clarify an important point regarding the recovery of funds.
+    <p>We understand how devastating it can be to fall victim to a crypto scam, and we are committed to helping you recover your stolen assets through our thorough investigation process. However, we would like to clarify an important point regarding the recovery of funds.</p>
     <br />
     <br />
     <hr />
     <br />
     <h2>Please Note!</h2>
-<br />
-If we successfully recover your stolen assets, we cannot be held responsible if the current value of the recovered cryptocurrency is lower than the value of the coins you originally purchased. The value of cryptocurrencies can fluctuate significantly, and market conditions may have changed since the time of your purchase.
-We strongly advise you to refer to the price cards below for the current value of the cryptocurrency you were scammed out of. You can use this information to calculate the current equivalent value of your recovered assets.
-We encourage you to stay informed and perform your own calculations based on the current market prices to better understand the value of your recovery.
-<br />
-<br />
-<br />
-Thank you for trusting us to assist you in recovering your assets.</p>
-<hr />
-</div>
+    <br />
+    <p>If we successfully recover your stolen assets, we cannot be held responsible if the current value of the recovered cryptocurrency is lower than the value of the coins you originally purchased. The value of cryptocurrencies can fluctuate significantly, and market conditions may have changed since the time of your purchase.
+    We strongly advise you to refer to the price cards below for the current value of the cryptocurrency you were scammed out of. You can use this information to calculate the current equivalent value of your recovered assets.
+    We encourage you to stay informed and perform your own calculations based on the current market prices to better understand the value of your recovery.</p>
+    <br />
+    <br />
+    <br />
+    <p>Thank you for trusting us to assist you in recovering your assets.</p>
+    <hr />
+    </div>
     <CryptoData />
     <Footer />
     </div>

@@ -30,43 +30,41 @@ function ContactUsNow() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
-
+      
         try {
-            const response = await fetch('http://localhost:3001/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Error submitting enquiry.');
-            }
-
-
-            const data = await response.json();
-            alert(data.message || 'Enquiry sent successfully!');
-            setFormData({
-                enquiryType: 'fraud-scams',
-                fullName: '',
-                email: '',
-                phone: '',
-                country: '',
-                scamWebsite: '',
-                lostMoney: '',
-                message: '',
-            });
+          const response = await fetch('http://localhost:3001/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+      
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error submitting enquiry.');
+          }
+      
+          const data = await response.json();
+          alert(data.message || 'Enquiry sent successfully!');
+          setFormData({
+            enquiryType: 'fraud-scams',
+            fullName: '',
+            email: '',
+            phone: '',
+            country: '',
+            scamWebsite: '',
+            lostMoney: '',
+            message: '',
+          });
         } catch (error) {
-            console.error('Error submitting enquiry:', error);
-            alert('There was an error submitting your enquiry. Please try again later.');
+          console.error('❌ Error submitting enquiry:', error);
+          alert(error.message || 'There was an error submitting your enquiry.');
         } finally {
-            setIsSubmitting(false);
+          setIsSubmitting(false);
         }
-    };
+      };
+      
 
 
     return (
