@@ -72,11 +72,78 @@ const SignUp = () => {
     }
   };
 
+<<<<<<< HEAD
   return (
     <div className="signup-page">
       <form onSubmit={handleSubmit}>
         <div className="signup-logo">
           <img src="images/Logo.png" alt="logo" />
+=======
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (passwordError || confirmPasswordError) {
+            alert('Please resolve password issues before signing up.');
+            return;
+        }
+
+        try {
+            // ✅ Register user
+            const registerResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+            });
+
+            alert(registerResponse.data.message);
+
+            // ✅ Automatically log in the user after registration
+            const loginResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
+                email: formData.email,
+                password: formData.password,
+            });
+
+            const { user, token } = loginResponse.data;
+
+            // ✅ Store token & user data
+            const storage = rememberMe ? localStorage : sessionStorage;
+            storage.setItem('token', token);
+            storage.setItem('user', JSON.stringify(user));
+
+            console.log("✅ Token Saved:", token);
+            console.log("✅ User Logged In:", user);
+
+            // ✅ Redirect user based on role
+            navigate(user.role === 'admin' ? '/admin-dashboard' : '/dashboard');
+        } catch (error) {
+            console.error('❌ Sign-up error:', error.response?.data || error.message);
+            alert(error.response?.data?.error || 'An error occurred during sign-up');
+        }
+    };
+
+    return (
+        <div className="signup-page">
+            <form onSubmit={handleSubmit}>
+                <div className="signup-logo">
+                    <img src="images/Logo.png" alt="logo" />
+                </div>
+                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+                {passwordError && <p className="error-message">{passwordError}</p>}
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
+                {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
+                <div className="signup-links">
+                    <label className="remember-me">
+                        <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange} />
+                        Remember me
+                    </label>
+                </div>
+                <div>
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+>>>>>>> c626855e350e81e11fa306009afa6f07f6fcb80d
         </div>
         <input
           type="text"

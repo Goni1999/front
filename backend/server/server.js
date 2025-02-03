@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 3001; // Use .env port or default
-const SECRET_KEY = process.env.SECRET_KEY; // Get from .env
+const SECRET_KEY = process.env.SECRET_KEY; // Get from .env 
 
 // Database connection using .env variables (add these to your .env)
 const db = mysql.createConnection({
