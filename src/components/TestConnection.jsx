@@ -6,8 +6,8 @@ const TestConnection = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Replace with your Vercel backend API URL
-    const apiUrl = 'https://vercel-deploy-server-orpin.vercel.app/api/test';  // Change to your Vercel URL
+    // Correct API URL for the /status route from Vercel
+    const apiUrl = 'https://vercel-deploy-server-p4qpaq0e3-goni-gonis-projects.vercel.app/api/status';
 
     const testConnection = async () => {
       try {
@@ -26,7 +26,7 @@ const TestConnection = () => {
     };
 
     testConnection();
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on component mount
 
   if (loading) {
     return <p>Loading...</p>;
