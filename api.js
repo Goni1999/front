@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://reactfrontend-de123.netlify.app/api';
+const API_URL = 'https://vercel-deploy-server-eight.vercel.app/api';
 
 export const getData = async () => {
     const response = await axios.get(`${API_URL}/data`);
