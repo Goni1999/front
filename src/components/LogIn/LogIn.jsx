@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/auth/login',
+        'https://vercel-deploy-server-eight.vercel.app/auth/login',
         formData,
         { validateStatus: (status) => status < 18000 }
       );

@@ -6,15 +6,21 @@ const TestConnection = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Correct API URL for the /status route from Vercel
-    const apiUrl = 'https://vercel-deploy-server-p4qpaq0e3-goni-gonis-projects.vercel.app/api/status';
+    const apiUrl = 'https://cors-anywhere.herokuapp.com/https://vercel-deploy-server-eight.vercel.app/api/index'; // Add the CORS proxy
 
     const testConnection = async () => {
       try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',  // Added this header
+          },
+        });
+
         const data = await response.json();
         if (response.ok) {
-          setMessage(data.message);  // Message from the backend (e.g., 'Server is connected')
+          setMessage(data.message); // Message from the backend
         } else {
           setError('Server returned an error');
         }
@@ -26,7 +32,7 @@ const TestConnection = () => {
     };
 
     testConnection();
-  }, []); // Empty dependency array ensures this runs once on component mount
+  }, []);
 
   if (loading) {
     return <p>Loading...</p>;

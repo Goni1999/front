@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'https://reactfrontend-de123.netlify.app/api';
 
 export const getData = async () => {
     const response = await axios.get(`${API_URL}/data`);
