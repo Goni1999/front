@@ -22,10 +22,16 @@ const Login = () => {
     setLoading(true);
 
     try {
+      // Send login request to Vercel backend API
       const response = await axios.post(
-        'https://vercel-deploy-server-eight.vercel.app/auth/login',
+        'https://vercel-deploy-server-eight.vercel.app/auth/login', // Make sure this URL is correct
         formData,
-        { validateStatus: (status) => status < 18000 }
+        {
+          validateStatus: (status) => status < 18000,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
       console.log("🔍 Login Response:", response.data); // ✅ Debugging log
@@ -52,6 +58,7 @@ const Login = () => {
       console.log("✅ Token Saved in LocalStorage:", localStorage.getItem('token')); // ✅ Debugging log
       console.log("✅ User Data Saved:", localStorage.getItem('user'));
 
+      // Navigate based on user role
       navigate(normalizedUser.role === 'admin' ? '/admin-dashboard' : '/dashboard');
 
     } catch (error) {

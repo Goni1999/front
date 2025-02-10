@@ -50,7 +50,7 @@ const SignUp = () => {
   
     try {
       // Updated URL with port 3001
-      const response = await axios.post('https://vercel-deploy-server-git-main-goni-gonis-projects.vercel.app/auth/register', {
+      const response = await axios.post('https://vercel-deploy-server-eight.vercel.app/auth/register', {
         name: formData.name,
         email: formData.email,
         password: formData.password,

@@ -20,14 +20,20 @@ const AdminDashboard = () => {
 
       console.log("🔍 Sending Token:", storedToken);
 
-      const headers = { Authorization: `Bearer ${storedToken}` };
-
+      const headers = {
+        Authorization: `Bearer ${storedToken}`,
+        'Content-Type': 'application/json',  // Ensure this is set to JSON
+      };
+      
       const [usersRes, reportsRes, investmentsRes, enquiriesRes] = await Promise.all([
-        axios.get('http://localhost:3001/api/users', { headers }),
-        axios.get('http://localhost:3001/api/reports', { headers }),
-        axios.get('http://localhost:3001/api/investments', { headers }),
-        axios.get('http://localhost:3001/api/contact', { headers }),
+        axios.get('https://vercel-deploy-server-eight.vercel.app/api/users', { headers }),
+        axios.get('https://vercel-deploy-server-eight.vercel.app/api/reports', { headers }),
+        axios.get('https://vercel-deploy-server-eight.vercel.app/api/investments', { headers }),
+        axios.get('https://vercel-deploy-server-eight.vercel.app/api/contact', { headers }),
       ]);
+      
+      // Handle the responses here
+      
 
       setUsers(usersRes.data);
       setReports(reportsRes.data);
@@ -77,7 +83,7 @@ const AdminDashboard = () => {
       const headers = { Authorization: `Bearer ${storedToken}` };
       const userData = editedUsers[userId];
 
-      await axios.put(`localhost:3001/api/users/${userId}`, userData, { headers });
+      await axios.put(`https://vercel-deploy-server-eight.vercel.app/api/users/${userId}`, userData, { headers });
 
       console.log(`✅ User ${userId} updated successfully`);
       alert('User balance updated successfully!');

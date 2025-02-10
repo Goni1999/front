@@ -1,7 +1,7 @@
 import React from 'react';
 import TestConnection from './components/TestConnection';  // Import the TestConnection component
 
-const App = () => {
+const App1 = () => {
   return (
     <div>
       <h1>Test Backend Connection</h1>
@@ -10,4 +10,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App1;
