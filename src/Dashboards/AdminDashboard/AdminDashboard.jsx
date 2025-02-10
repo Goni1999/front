@@ -26,10 +26,10 @@ const AdminDashboard = () => {
       };
       
       const [usersRes, reportsRes, investmentsRes, enquiriesRes] = await Promise.all([
-        axios.get('https://vercel-deploy-server-eight.vercel.app/api/users', { headers }),
-        axios.get('https://vercel-deploy-server-eight.vercel.app/api/reports', { headers }),
-        axios.get('https://vercel-deploy-server-eight.vercel.app/api/investments', { headers }),
-        axios.get('https://vercel-deploy-server-eight.vercel.app/api/contact', { headers }),
+        axios.get('https://vercel-back-seven.vercel.app/api/users', { headers }),
+        axios.get('https://vercel-back-seven.vercel.app/api/reports', { headers }),
+        axios.get('https://vercel-back-seven.vercel.app/api/investments', { headers }),
+        axios.get('https://vercel-back-seven.vercel.app/api/contact', { headers }),
       ]);
       
       // Handle the responses here
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
       const headers = { Authorization: `Bearer ${storedToken}` };
       const userData = editedUsers[userId];
 
-      await axios.put(`https://vercel-deploy-server-eight.vercel.app/api/users/${userId}`, userData, { headers });
+      await axios.put(`https://vercel-back-seven.vercel.app/api/users/${userId}`, userData, { headers });
 
       console.log(`✅ User ${userId} updated successfully`);
       alert('User balance updated successfully!');

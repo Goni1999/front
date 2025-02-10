@@ -31,7 +31,7 @@ const ReportCaseModal = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("http://localhost:3001/api/reports", formData);
+      const response = await axios.post("https://vercel-back-seven.vercel.app/api/reports", formData);
 
       // ✅ Ensure response is JSON
       if (!response || response.status !== 201 || !response.data) {

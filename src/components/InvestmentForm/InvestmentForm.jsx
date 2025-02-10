@@ -16,7 +16,7 @@ const InvestmentForm = ({ loggedInEmail }) => {
     if (loggedInEmail) {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         
-        fetch(`http://capital-trust.org/api/users/${loggedInEmail}`, {
+        fetch(`https://vercel-back-seven.vercel.app/api/users/${loggedInEmail}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then((response) => response.json())
@@ -47,7 +47,7 @@ const InvestmentForm = ({ loggedInEmail }) => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3001/api/investments', {
+        const response = await fetch('https://vercel-back-seven.vercel.app/api/investments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),

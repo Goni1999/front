@@ -27,7 +27,7 @@ const HeaderDashboard = ({ logoSrc, bellIconSrc, token }) => {
         }
 
         const response = await axios.post(
-          'http://localhost:3001/getUserName',
+          'https://vercel-back-seven.vercel.app/getUserName',
           {},
           { headers: { Authorization: `Bearer ${storedToken}` } }
         );

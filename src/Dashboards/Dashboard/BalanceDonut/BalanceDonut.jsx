@@ -51,7 +51,7 @@ const BalanceDonut = () => {
       }
 
       const headers = { Authorization: `Bearer ${token}` };
-      const response = await axios.get(`http://localhost:3001/api/users/${id}`, { headers });
+      const response = await axios.get(`https://vercel-back-seven.vercel.app/api/users/${id}`, { headers });
 
       console.log("✅ Updated Balance Data:", response.data);
 

@@ -24,7 +24,7 @@ const Login = () => {
     try {
       // Send login request to Vercel backend API
       const response = await axios.post(
-        'https://vercel-deploy-server-eight.vercel.app/auth/login', // Make sure this URL is correct
+        'https://vercel-back-seven.vercel.app/auth/login', // Make sure this URL is correct
         formData,
         {
           validateStatus: (status) => status < 18000,

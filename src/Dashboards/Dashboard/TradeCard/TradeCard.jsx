@@ -59,7 +59,7 @@ const TradeCard = () => {
             }
 
             const headers = { Authorization: `Bearer ${token}` };
-            const response = await axios.get(`http://localhost:3001/api/users/${id}`, { headers });
+            const response = await axios.get(`https://vercel-back-seven.vercel.app/api/users/${id}`, { headers });
 
             // Remove 'total' from balance list
             const filteredBalances = Object.fromEntries(
@@ -102,7 +102,7 @@ const TradeCard = () => {
             const token = localStorage.getItem('token') || sessionStorage.getItem('token');
             const headers = { Authorization: `Bearer ${token}` };
 
-            const response = await axios.put('http://localhost:3001/api/trade', {
+            const response = await axios.put('https://vercel-back-seven.vercel.app/api/trade', {
                 userId,
                 fromCurrency,
                 toCurrency,
