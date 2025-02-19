@@ -43,7 +43,7 @@ const MonthlyGrowth = () => {
       background: "#171F2A",
     },
     title: {
-      text: "Simulated Portfolio Growth",
+      text: " Portfolio Growth",
       align: "left",
       style: { color: "#fff" },
     },

@@ -22,9 +22,9 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Send login request to Vercel backend API
+      // Send login request to the backend API
       const response = await axios.post(
-        'https://vercel-back-seven.vercel.app/auth/login', // Make sure this URL is correct
+        'https://server.capital-trust.eu/auth/login', // Make sure this URL is correct
         formData,
         {
           validateStatus: (status) => status < 18000,
@@ -48,7 +48,8 @@ const Login = () => {
 
       const normalizedUser = {
         ...user,
-        role: user.role?.toLowerCase().trim() || 'user'
+        role: user.role?.toLowerCase().trim() || 'user',
+        verified: user.verified // Assuming user object has 'verified' field
       };
 
       // ✅ Always store token in localStorage
@@ -58,8 +59,18 @@ const Login = () => {
       console.log("✅ Token Saved in LocalStorage:", localStorage.getItem('token')); // ✅ Debugging log
       console.log("✅ User Data Saved:", localStorage.getItem('user'));
 
-      // Navigate based on user role
-      navigate(normalizedUser.role === 'admin' ? '/admin-dashboard' : '/dashboard');
+      // Navigate based on user role and verification status
+      if (normalizedUser.role === 'admin') {
+        navigate('/admin-dashboard'); // Redirect to admin dashboard if the user is admin
+      } else if (normalizedUser.role === 'notverified') {
+        navigate('/not-verified'); // Redirect to a waiting page if the user is not verified
+      } else if (normalizedUser.role === 'user') {
+        navigate('/dashboard'); // Redirect to user dashboard if the user is verified
+      } else if (normalizedUser.role === 'emailverified') {
+        navigate('/kyc-verification'); // Redirect to user dashboard if the user is verified
+      } else if (normalizedUser.role === 'pending') {
+        navigate('/pending'); // Redirect to user dashboard if the user is verified
+      }
 
     } catch (error) {
       console.error('❌ Login error:', error.response?.data || error.message);
@@ -93,17 +104,7 @@ const Login = () => {
           required
           autoComplete="current-password"
         />
-        <div className="login-links">
-          <label className="remember-me">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={handleRememberMeChange}
-              disabled={loading}
-            />
-            Remember me
-          </label>
-        </div>
+        
         <div>
           <button type="submit" disabled={loading}>
             {loading ? 'Logging in...' : 'Log In'}

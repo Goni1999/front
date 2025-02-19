@@ -9,9 +9,16 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    birthday: '',
+    address: '',
+    phone: '',
+    gender: '',
   });
+  
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [formError, setFormError] = useState('');
+  
   const navigate = useNavigate();
 
   const validatePassword = (password) => {
@@ -40,37 +47,63 @@ const SignUp = () => {
     });
   };
 
+  const validateForm = () => {
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword || !formData.birthday || !formData.address || !formData.phone || !formData.gender) {
+      setFormError('Please fill in all fields.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    if (!validateForm()) {
+        return;
+    }
+
     if (passwordError || confirmPasswordError) {
-      alert('Please resolve password issues before signing up.');
-      return;
+        alert('Please resolve password issues before signing up.');
+        return;
     }
-  
+
     try {
-      // Updated URL with port 3001
-      const response = await axios.post('https://vercel-back-seven.vercel.app/auth/register', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
-  
-      alert("Your account is being set up...");
+        const registerResponse = await axios.post('https://server.capital-trust.eu/auth/register', {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            birthday: formData.birthday,
+            address: formData.address,
+            phone: formData.phone,
+            gender: formData.gender,
+        });
 
-    // Second alert after 3 seconds
-    setTimeout(() => {
-      alert("Feel free to log in now!");
-      navigate('/');
-    }, 3000);
+        const { userId, email, verification_token, nextStep } = registerResponse.data;
 
-  
+        // Now call the send verification email API
+        const emailResponse = await axios.post('https://server.capital-trust.eu/auth/send-verification-email', {
+            userId: userId,
+            email: formData.email,
+            verification_token: verification_token, // Get the token from response
+        });
+
+        if (emailResponse.status === 200) {
+            alert('Registration successful! Please check your email to verify your account.');
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        } else {
+            // Handle the case where email sending failed
+            alert('We encountered an issue while sending your verification email. Please try again.');
+            console.error('Email sending failed:', emailResponse.data.error);
+        }
+
     } catch (error) {
-      const errorMessage = error.response?.data?.error || 
-        (error.response?.status === 409 ? 'Email is already registered' : 'Signup failed. Please try again.');
-      alert(errorMessage);
+        const errorMessage = error.response?.data?.error || 'Signup failed. Please try again.';
+        alert(errorMessage);
     }
-  };
+};
+
 
   return (
     <div className="signup-page">
@@ -112,6 +145,46 @@ const SignUp = () => {
           required
         />
         {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
+        
+        <input
+          type="date"
+          name="birthday"
+          placeholder="Birthday"
+          value={formData.birthday}
+          onChange={handleChange}
+          required
+        />
+        
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          value={formData.address}
+          onChange={handleChange}
+          required
+        />
+        
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone Number"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
+        
+        <div>
+          <label>Gender</label>
+          <select name="gender" value={formData.gender} onChange={handleChange} required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        {formError && <p className="error-message">{formError}</p>}
+
         <button type="submit">Sign Up</button>
       </form>
     </div>

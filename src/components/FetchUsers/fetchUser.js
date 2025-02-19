@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const fetchUserName = async (token) => {
     try {
-        const response = await axios.post('https://vercel-back-seven.vercel.app/getUserName', {}, {
+        const response = await axios.post('https://server.capital-trust.eu/getUserName', {}, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return response.data.name;

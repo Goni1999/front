@@ -1,58 +1,150 @@
 .balance-donut-card {
-    width: 400px;
-    padding: 20px;
-    background-color: #171F2A;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
+  width: 100%;
+  max-width: 500px; /* Max width ensures it doesn't grow too large */
+  padding: 20px;
+  background-color: #171F2A;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-right: 25px;
   
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-    }
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
   }
-  
+
+  /* Donut Chart Container */
   .donut-chart-container {
     position: relative;
-    width: 200px;
+    width: 100%;
+    max-width: 200px; /* Limits the size of the donut chart */
     height: 181px;
     margin: 0 auto;
   }
-  
+
   .donut-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
+    font-size: 1.2rem; /* Adjusted for better scalability */
     font-weight: bold;
     color: white;
   }
-  
+
+  /* Balance Info Section */
   .balance-info {
     margin-top: 20px;
     text-align: center;
+    width: 100%; /* Ensures the text section scales */
   }
-  
+
   .balance-info h2 {
-    font-size: 20px;
+    font-size: 1.2rem; /* Scalable font size */
     color: white;
     margin-bottom: 10px;
   }
-  
+
   .crypto-amount {
-    font-size: 16px;
+    font-size: 1rem; /* Scalable font size */
     color: white;
     margin-bottom: 5px;
   }
-  
+
   .usd-amount {
-    font-size: 35px;
+    font-size: 2.2rem; /* Scalable font size */
     color: white;
   }
-  
+
+  /* Mobile responsiveness */
+  @media screen and (max-width: 768px) {
+    width: 350px; /* Take up 90% width on smaller screens */
+    max-width: 350px; /* Reduce max width on mobile */
+    padding: 15px; /* Adjust padding */
+    margin-bottom: 25px;
+    
+    .balance-donut-card {
+      width: 100%;
+      max-width: 500px; /* Max width ensures it doesn't grow too large */
+      padding: 20px;
+      background-color: #171F2A;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-right: 0px;
+      margin-bottom: 25px;
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+      }
+    }
+    .donut-chart-container {
+      max-width: 150px; /* Adjust donut size */
+      height: 150px; /* Adjust height for mobile */
+    }
+
+    .donut-center {
+      font-size: 1rem; /* Adjust text size */
+    }
+
+    .balance-info h2 {
+      font-size: 1rem; /* Adjust heading font size */
+    }
+
+    .crypto-amount {
+      font-size: 0.9rem; /* Adjust crypto amount font size */
+    }
+
+    .usd-amount {
+      font-size: 1.8rem; /* Adjust USD amount font size */
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .balance-donut-card {
+      width: 100%;
+      max-width: 500px; /* Max width ensures it doesn't grow too large */
+      padding: 20px;
+      background-color: #171F2A;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-right: 0px;
+      margin-bottom: 25px;
+    }
+    .donut-chart-container {
+      max-width: 120px; /* Further reduce donut chart size */
+      height: 120px;
+      width: 350px; /* Adjust height for very small screens */
+    }
+
+    .donut-center {
+      font-size: 0.9rem; /* Adjust text size for smaller screens */
+    }
+
+    .balance-info h2 {
+      font-size: 0.9rem; /* Further reduce heading size */
+    }
+
+    .crypto-amount {
+      font-size: 0.8rem; /* Adjust font size */
+    }
+
+    .usd-amount {
+      font-size: 1.6rem; /* Adjust USD font size for smaller screens */
+    }
+  }
+}

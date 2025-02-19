@@ -1,69 +1,176 @@
-.crypto-cards-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    background-color: #131720; // Dark background for the container
+.recent-transactions {
+  width: 90%;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 50px;
+  margin: 0 auto; /* Centers the card on the screen */
+  
+  
+    .title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 20px;
+    }
+  
+    .transaction-list {
+      width: auto;; // Card width
+      height: 200px; // Card height
+      background-color: #171f2a; // Dark card background
+      color: #fff; // White text color
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+      padding: 12px;
+      display: flex;
+      flex-direction: row;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+  
+    .transaction-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background: #171F2a;
+      border: 0.1px solid #151515;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      width: 240px;
+      margin-right: 10px;
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+  
+
+      .coin-name {
+        font-size: small;
+        margin-right: 5px;
+      }
+      .coin-price{
+        font-size: small;
+        margin-right: 5px;
+        
+      }
+      .currency-logo {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+  
+      .transaction-details {
+        flex: 1;
+        margin-left: 15px;
+        width: 200px;
+        .currency-name {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: white;
+        }
+  
+        .transaction-time {
+          font-size: 0.9rem;
+          color: white;
+        }
+      }
+  
+      .transaction-amount {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #00c853;
+      }
+    }
   }
   
-  .crypto-card {
-    width: 300px; // Card length
-    height: 120px; // Card height
-    background-color: #171f2a; // Dark card background
-    color: #fff; // White text color
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-    padding: 12px;
+
+
+  @media (max-width: 1024px) {
+
+
+  .recent-transactions {
+    width: 340px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-  
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 17px;
-      font-weight: 600;
-  
-      .coin-name {
-        text-align: left;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 auto; /* Centers the card on the screen */
+      .title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 20px;
       }
-  
-      .coin-price {
-        text-align: right;
+    
+      .transaction-list {
+        background-color: #171f2a; // Dark card background
+        color: #fff; // White text color
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: auto;
       }
-    }
-  
-    .card-body {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-  
-      .coin-logo {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #292929; // Placeholder color for logos
-        margin-right: 10px;
-      }
-  
-      canvas {
-        width: 200px !important; // Restrict graph width inside the card
-        height: 90px !important; // Restrict graph height inside the card
+    
+      .transaction-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        background: #171F2a;
+        border: 0.1px solid #151515;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin-bottom: 25px;
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    
+        .currency-logo {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+    
+        .transaction-details {
+          flex: 1;
+          margin-left: 15px;
+          width: 200px;
+          .currency-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+          }
+    
+          .transaction-time {
+            font-size: 0.9rem;
+            color: white;
+          }
+        }
+    
+        .transaction-amount {
+          font-size: 1.1rem;
+          font-weight: bold;
+          color: #00c853;
+        }
       }
     }
   }
-  
-  // Ensure the cards are responsive on smaller screens
-  @media (max-width: 768px) {
-    .crypto-cards-container {
-      justify-content: center;
-    }
-  
-    .crypto-card {
-      width: 200px;
-      height: 80px;
-    }
-  }
-  

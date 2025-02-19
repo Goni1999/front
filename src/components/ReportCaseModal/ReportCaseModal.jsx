@@ -31,7 +31,7 @@ const ReportCaseModal = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("https://vercel-back-seven.vercel.app/api/reports", formData);
+      const response = await axios.post("https://server.capital-trust.eu/api/reports", formData);
 
       // ✅ Ensure response is JSON
       if (!response || response.status !== 201 || !response.data) {
@@ -54,9 +54,12 @@ const ReportCaseModal = () => {
 
   return (
     <>
-      <button className="report-button" onClick={toggleModal}>
+    <div className="report-div">
+    <button className="report-button" onClick={toggleModal}>
         Report Your Case
       </button>
+    </div>
+     
 
       {isModalOpen && (
         <div className="modal-overlay" onClick={toggleModal}>

@@ -1,33 +1,28 @@
-// General Navbar Styles
 .navbar {
   font-family: "Lato", serif;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #F9F9EE;
+  background-color: #ffffff;
   padding: 0px 32px;
   position: sticky;
   top: 0;
   z-index: 999;
   color: black;
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out;
 
   &.dark-mode {
     background-color: black;
     color: white;
 
-    .navbar-item{
-      border-bottom: 0.1px solid white;
-
-    }
-
+    
     .navbar-logo a,
     .navbar-links a,
-    .auth-button,
+    .auth-button-log-in,
+    .auth-button-sign-up,
     .theme-toggle {
       color: white;
-
     }
 
     .dropdown-menu {
@@ -38,10 +33,6 @@
       button:hover {
         background-color: #444;
       }
-    }
-
-    .report-button {
-      background-color: black;
     }
   }
 
@@ -60,23 +51,66 @@
     display: flex;
     gap: 15px;
     margin-right: 28px;
-
-    
+    display: flex;
+    align-items: center;
 
     .navbar-item a {
       text-decoration: none;
       color: inherit;
       font-size: 16px;
-      padding: 5px 15px;
-      border-bottom: 0.1px solid black;
+      padding: 10px 15px;
       transition: color 0.3s ease;
 
-      &:hover{
-        background-color: black;
-        color: white;
-        transition: 0.2s ease-in;
+      &:hover {
+        background-color:   hsla(28, 40%, 45%, 1); /* Darken background on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 5px; /* Add shadow on hover */
       }
-      
+    }
+  }
+
+  // Mobile Menu
+  .navbar-hamburger {
+    display: none;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  .navbar-links.open {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 98%;
+    background-color: #F9F9EE;
+    padding: 20px;
+    z-index: 10;
+    transition: transform 0.3s ease;
+  }
+
+  .navbar-item {
+    text-align: left;
+    margin: 15px 0;
+  }
+
+  // Mobile view styles
+  @media screen and (max-width: 768px) {
+    .navbar-logo {
+      font-size: 0px;
+    }
+
+    .navbar-links {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .navbar-hamburger {
+      display: block;
     }
   }
 }
@@ -86,20 +120,7 @@
   display: flex;
   gap: 15px;
 
-  .auth-button {
-    background: none;
-    border: 0.5px solid rgba(0, 0, 0, 0.5) ;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: royalblue;
-
-    &:hover {
-      color: white;
-    }
+  
 
     &.theme-toggle {
       border: none;
@@ -109,145 +130,114 @@
         color: white;
       }
     }
-  }
+  
 
   // Dark Mode Buttons
   &.dark-mode {
-    .auth-button {
-      border: 1px solid #f5f5f5;
-      color: #f5f5f5;
+    .auth-button-log-in {
+      color: #000000;
+      border: none;
 
       &:hover {
-        background-color: #ffd700;
+        background-color:  hsla(28, 40%, 45%, 1); ;
+        color: #1e1e1e;
+      }
+    }
+    .auth-button-sign-up {
+      color: #000000;
+      border: none;
+
+      &:hover {
+        background-color:  hsla(28, 40%, 45%, 1); ;
         color: #1e1e1e;
       }
     }
   }
 }
 
-// User Dropdown
-.user-dropdown {
-  position: relative;
-  display: inline-block;
-
-  span {
-    cursor: pointer;
-    font-weight: bold;
-    color: inherit;
-  }
-
-  .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 30px;
-    background-color: white;
-    border: 1px solid lightgray;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    min-width: 120px;
-    z-index: 999;
-
-    button {
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 10px;
-      color: inherit;
-      text-align: left;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
-    }
-  }
-
-  &.dark-mode .dropdown-menu {
-    background-color: #2b2b2b;
-    border: 1px solid #444;
-
-    button:hover {
-      background-color: #444;
-    }
-  }
+// Mobile Slide Menu
+.navbar-links.open {
+  transform: translateY(0);
 }
 
-// Report Button
-.report-button {
-  border: none;
-  color: #fff;
-  border-radius: 10px;
-  font-size: 14px;
-  background-color: #111;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid white;
 
-  &:hover {
-    color: royalblue;
-    border: 1px solid royalblue;
+.navbar-item {
+  .auth-button-log-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px; /* Adjust padding */
+    background-color: rgb(255, 255, 255); /* Login button background color */
+    color: black; /* Text color */
+    border: 0.3px solid rgb(164, 161, 161); /* No border */
+    border-radius: 5px; /* Rounded corners */
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-weight: inherit; /* Make text bold */
+    line-height: 16px; /* Adjust line height for better alignment */
+    font-size: 16px; /* Set font size */
+    width: 100px; /* Set width */
+    transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth transitions for background and shadow */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; /* Prevent text selection */
+  
+    &:hover {
+      background-color:   hsla(28, 40%, 45%, 1); /* Darken background on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    }
+  }
+  
+
+  .auth-button-sign-up {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px; /* Adjust padding */
+    background-color: hsla(28, 40%, 56%, 1); /* Login button background color */
+    color: black; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    white-space: nowrap; /* Prevent text from wrapping */
+    font-weight: inherit; /* Make text bold */
+    line-height: 16px; /* Adjust line height for better alignment */
+    font-size: 16px; /* Set font size */
+    width: 100px; /* Set width */
+    transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth transitions for background and shadow */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; /* Prevent text selection */
+  
+    &:hover {
+      background-color:   hsla(28, 40%, 45%, 1); /* Darken background on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    }
   }
 
-  &:focus {
-    animation: pulse 1s infinite;
+.theme-toggle {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #a2a2a2; /* Same as Log In button color */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 50px;
+  transition: background-color 0.3s ease-in-out;
+  line-height: 16px;
+  &:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
   }
 
   &.dark-mode {
-    color: #f5f5f5;
-    border-bottom: 0.1 solid white;
+    background-color: #28a745; /* A greenish color for dark mode */
+  }
 
-    &:hover {
-      background-color: #444;
-    }
+  &.dark-mode:hover {
+    background-color: #218838; /* Darker green on hover */
   }
 }
-
-body.dark-mode {
-  background-color: #0C0F0A;
-  color: #f5f5f5;
-  transition: all 0.3s ease;
-
-  a {
-    color: #ffd700;
-  }
-
-  h2 {
-    color: whitesmoke;
-  }
-
-  h3 {
-    color: whitesmoke;
-  }
-}
-
-.img-logo {
-  width: 230px;
-  height: 130px;
-  margin: 0;
-}
-
-.modal-overlay .modal-content {
-  .remember-me {
-    color: black; 
-  }
-
-  a {
-    color: blue; /* Or any static color you prefer */
-    text-decoration: underline;
-
-    &:hover {
-      color: darkblue; /* Optional hover color */
-    }
-  }
-
-  /* Ensure these styles don't change in dark mode */
-  body.dark-mode & {
-    .remember-me {
-      color: black; /* Keep static color in dark mode */
-    }
-
-    a {
-      color: blue;
-    }
-  }
 }

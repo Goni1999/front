@@ -1,26 +1,62 @@
 .monthly-growth {
+  padding: 20px;
+  background-color: #171F2A;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #171F2A;
-  padding: 10px;
-  border-radius: 10px;
-  color: #fff;
-  margin-left: 0%;
-  margin-top: 2px;
-  width: 70%;
-
+  font-family: 'Arial', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 auto; /* Centers the card on the screen */// Added smooth transition for responsive adjustments
+  z-index: 0;
   h3 {
     margin-bottom: 20px;
+    font-size: 22px; /* Set font size for heading */
   }
 
   .chart-container {
     width: 90%;
     max-width: 1000px;
-    height: 418px;
+    height: 418px; /* Default height */
+    position: relative; /* Ensure chart's position doesn't affect layout */
   }
 
   #chart {
-    background: #171F2A; 
+    background: #171F2A;
+  }
+
+  // Responsive design for smaller screens
+  @media (max-width: 1024px) {
+    width: 80%; /* Increase width to make use of available space */
+    margin-left: 10%; /* Center the component */
+  }
+
+  @media (max-width: 768px) {
+    width: 370px;
+    max-width: 360px; /* Reduce max width on mobile */
+    padding: 15px; //* Add some padding on smaller devices for better spacing */
+    height: 400px;
+    .chart-container {
+      height: 360px; /* Adjust chart height */
+    }
+
+    h3 {
+      font-size: 20px; /* Reduce heading font size for mobile screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+  width: 370px;
+    margin-left: 0%; /* Remove any left margin */
+    padding: 10px; /* Adjust padding for mobile */
+    
+    .chart-container {
+      height: 300px; /* Further reduce chart height for mobile */
+    }
+
+    h3 {
+      font-size: 18px; /* Further reduce heading font size for mobile */
+    }
   }
 }

@@ -8,7 +8,7 @@ import InvestToday from '../../Dashboards/Dashboard/InvestToday/InvestToday';
 
 const Exchange = () => {
   const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState("User");
+  const [sidebarActive, setSidebarActive] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -17,7 +17,6 @@ const Exchange = () => {
       try {
         const decodedToken = jwtDecode(storedToken);
         setUserId(decodedToken.id);
-        setUserName(decodedToken.name);
         console.log("🔍 Logged-in User ID:", decodedToken.id);
       } catch (error) {
         console.error("❌ Error decoding token:", error);
@@ -27,30 +26,38 @@ const Exchange = () => {
     }
   }, []);
 
+  const toggleSidebar = () => {
+    setSidebarActive(!sidebarActive);
+  };
   return (
-    <div style={{ backgroundColor: '#131720' }}>
-      <HeaderDashboard
-        logoSrc="./images/logo.png"
-        bellIconSrc="/path/to/bell-icon.png"
-        userName={userName} 
+    <div className="dashboard-container">
+
+     <HeaderDashboard 
+        toggleSidebar={toggleSidebar}
+        sidebarActive={sidebarActive}
       />
-      <Sidebar />
-      <div style={{ marginLeft: '20%', padding: '10px' }}>
+
+      <Sidebar 
+        sidebarActive={sidebarActive}
+        toggleSidebar={toggleSidebar}
+      />
+      <div className="dashboard-content">
+
+        <div className="dashboard-row">
+        <div className="dashboard-card full-width">
+
         <CryptoCard1 />
-        <div style={{ 
-          display: 'flex',
-          alignItems: 'flex-start',
-          marginTop: '20px'
-        }}>
-          <div style={{ flex: 1 }}>
-            {userId ? <TradeCard userId={userId} /> : <p>Loading user data...</p>}
-          </div>
-          <div style={{ flex: 1 }}>
+        </div>
+        
+        <div className="dashboard-card">
+          {userId ? <TradeCard userId={userId} /> : <p>Loading user data...</p>}
+          
             <InvestToday />
           </div>
-        </div>
       </div>
     </div>
+    </div>
+
   );
 };
 

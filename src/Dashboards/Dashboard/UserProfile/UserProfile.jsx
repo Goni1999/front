@@ -18,7 +18,7 @@ const UserProfile = () => {
           return;
         }
 
-        const response = await axios.get(`https://vercel-back-seven.vercel.app/api/user/${storedUser.email}`, {
+        const response = await axios.get(`https://server.capital-trust.eu/api/user/${storedUser.email}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
           }

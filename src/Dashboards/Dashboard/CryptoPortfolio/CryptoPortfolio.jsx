@@ -49,15 +49,20 @@ const CryptoPortfolio = ({ user, isAdmin }) => {
     }));
   };
 
-  // Save updated data
+  // Save updated data with the user id
   const handleSave = async () => {
     try {
       const total = calculateTotal();
-      await axios.put(`http://localhost:3001/api/users/${user.id}`, {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const userId = jwtDecode(token).id; // Assuming jwtDecode is available
+
+      await axios.put('https://server.capital-trust.eu/api/users', {
+        id: userId, // Sending the user ID in the request body
         ...cryptoData,
         total
       });
-      setEditMode(false);
+
+      setEditMode(false); // Disable edit mode after saving
     } catch (error) {
       console.error('Update failed:', error);
     }

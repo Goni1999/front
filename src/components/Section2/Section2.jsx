@@ -40,11 +40,7 @@ const Section2 = () => {
           </div>
         ))}
       </div>
-      <div className="more-link">
-        <Link to="/about" className="more-link-text">
-          Click here for more &rarr;
-        </Link>
-      </div>
+      
     </div>
   );
 };

@@ -29,11 +29,10 @@ const VideoCarousel = () => {
       paragraph: "Become part of the financial revolution and secure your place in the future of investing. CapitalTrust is here to guide you every step of the way." 
     }
   ];
-  
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-transition every 10 seconds
+  // Auto-transition every 8 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
@@ -48,17 +47,13 @@ const VideoCarousel = () => {
 
   return (
     <div className="video-carousel">
-      <video autoPlay muted loop className="video-background">
-        <source src="/images/video7.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
       <div className="carousel-content">
-        <h1>{slides[currentIndex].header}</h1>
         <div className="carousel-text">
-        <p>{slides[currentIndex].paragraph}</p>
+          <h1>{slides[currentIndex].header}</h1>
+          <p>{slides[currentIndex].paragraph}</p>
         </div>
         <div className="modal">
-        <ReportCaseModal />
+          <ReportCaseModal />
         </div>
         <div className="carousel-dots">
           {slides.map((_, index) => (
@@ -69,6 +64,14 @@ const VideoCarousel = () => {
             ></span>
           ))}
         </div>
+      </div>
+
+      {/* Video Box on the right */}
+      <div className="video-box">
+        <video autoPlay muted loop className="video-background">
+          <source src="/images/video7.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   );

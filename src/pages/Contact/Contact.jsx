@@ -13,6 +13,8 @@ const Contact = () => {
     return (
     <div>
             <Navbar />
+            <div className='padding-home'>
+
             <div className="faq-section">
             <h1>CapitalTrust - How Does It Work?</h1>
             <div>
@@ -93,6 +95,7 @@ const Contact = () => {
             <br />
             <div>
     <a href="/contactus" className='large'>If you have questions, please make sure to contact us today!</a></div>
+        </div>
         </div>
         <Footer />
     </div>

@@ -1,65 +1,79 @@
+/* Sidebar.scss */
 .sidebar {
-    position: fixed;
-    top: 130px; 
-    left: 0;
-    width: 20%; 
-    height: calc(100vh - 100px); 
-    background-color: #212B39;
-    color: white;
-    padding: 20px;
-    box-sizing: border-box;
-  
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-  
-      .sidebar-item {
-        display: flex;
-        align-items: center;
-        padding: 15px 12px;
-        margin: 10px 0;
-        border: 0.2px solid gray;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: -270px; /* Initially off-screen */
+  width: 250px;
+  height: 100%;
+  background-color: #171f2a;
+  color: white;
+  transition: left 0.3s ease-in-out; /* Transitioning left for a smooth effect */
+  padding-top: 100px;
+  z-index: 1;
+  padding-left: 30px;
+}
 
-        
-  
-        &:hover {
-          color: #3EBF81;
-          border-color: #3EBF81;
-        }
+.sidebar.open {
+  left: 0; /* Move sidebar into view when toggled */
+}
 
-        
-        
+.sidebar.large-screen {
+  left: 0; /* Ensure sidebar is always visible on large screens */
+}
 
+/* Hamburger menu for small screens */
+.hamburger-menu {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
 
-      }
-    }
+.bar {
+  display: block;
+  width: 30px;
+  height: 4px;
+  margin: 6px 0;
+  background-color: white;
+}
 
-    .sidebar-item-2{
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      border: 1px solid red;
-      border-radius: 30px;
-      border-width: 3px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: white;
-      background-color: darkred;
-      
-      &:hover {
-        background-color: red;
-        color: white;
-      }
-  }
+.sidebar-menu {
+  padding: 0;
+}
 
-  .sidebar-icon{
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
+.sidebar-item {
+  list-style: none;
+  font-size: 17px;
+  padding: 15px 0;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+}
 
-  
+.sidebar-item-2 {
+  list-style: none;
+  font-size: 17px;
+  padding: 15px 0;
+  cursor: pointer;
+  color: white;
+}
+
+.sidebar-icon {
+  width: 25px;
+  margin-right: 20px;
+}
+.button-menu {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-menu:hover {
+  background-color: #3c4b61;
 }

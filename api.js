@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://vercel-back-seven.vercel.app/api';
+const API_URL = 'https://server.capital-trust.eu/api';
 
 export const getData = async () => {
     const response = await axios.get(`${API_URL}/data`);

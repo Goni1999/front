@@ -12,7 +12,7 @@ const Section4 = () => {
             <img src="images/image22.jpg" alt="img2" />
             </div>
         </div>
-        <div className="description-wrapper">
+       {/*  <div className="description-wrapper">
   <h2 className="header">Who We Are</h2>
   <h3 className="sub-header">Our Work Since 2012</h3>
   <p>
@@ -30,9 +30,9 @@ const Section4 = () => {
   <p>
     Join us in our mission to fight cyber scams, foster digital trust, and build a community of informed and protected users. Together, we can make the internet a safer place to explore, work, and connect.
   </p>
-</div>
+</div>*/}
 
-      </div>
+      </div> 
     
   );
 };

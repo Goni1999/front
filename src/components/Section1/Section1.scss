@@ -1,36 +1,97 @@
-.section1 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 100px;
-    border-radius: 10px;
-    margin: 1px auto;
-    color: black;
+// Base Styles (Global variables and styles)
+:root {
+  --u16: 16px;
+  --u24: 24px;
+  --u32: 32px;
+  --u40: 40px;
+  --u48: 48px;
+  --bgGrey: #f4f4f4;
+  --cEmph: #000;
+  --stepsBackground: #fff;
+  --stepsBorder: #333;
+}
 
-    .section1-image {
-      flex: 1;
-      img {
-        width: 100%;
-        max-width: 400px;
-        border-radius: 12px;
-      }
-    }
-  
-    .section1-content {
-      flex: 2;
-      margin-left: 10px;
-  
-      h2 {
-        margin-bottom: 15px;
-      }
-  
-      p {
-        color: #555;
-        line-height: 1.6;
-        margin-bottom: 15px;
-      }
-  
-      
-    }
+// Wrapper and container
+.wrap_wrap__S_v0r {
+  // Customize as needed
+}
+
+// Grid and layout styles
+.grid_grid__2D3md {
+  display: grid;
+  grid-template-rows: min-content;
+  grid-template-columns: 1fr;
+  grid-gap: var(--u16);
+  align-items: center;
+}
+
+.grid_gComponent__Xx_xR {
+  --gap: var(--u32);
+}
+
+// Step Icon Container
+.regSteps_icon__GNY6O {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  position: relative;
+  background: var(--bgShape);
+  border-radius: 50%;
+  border: 2px solid var(--stepsBorder);
+  color: var(--cEmph);
+  box-shadow: 0 0 0 var(--u8) var(--bgShape);
+  transition: background .3s ease-out, border .3s ease-out;
+}
+
+.regSteps_shape__E4TxA {
+  position: relative;
+  display: flex;
+  grid-template-columns: 1fr;
+  justify-content: space-evenly;
+  grid-row: 1 / 4;
+  border-radius: 56px;
+  padding: var(--u16) 0;
+  grid-gap: var(--u48);
+  background-color: white;
+}
+
+.regSteps_wrap__XqfSx {
+  background-color: var(--bgGrey);
+  padding: var(--u16);
+  border-radius: 24px;
+  text-align: center;
+}
+@media screen and (min-width: 768px){
+.regSteps_text__WIIqF {
+  font-size: 1rem; /* Default font size */
+  margin-top: var(--u8);
+  padding: 90px; /* Default padding */
+}
+}
+
+/* Media query for smaller devices (up to 768px) */
+@media screen and (max-width: 1024px) {
+  .regSteps_text__WIIqF {
+    font-size: 0.3rem; /* Smaller font size for devices smaller than 768px */
+    padding: 60px; /* Smaller padding for smaller screens */
   }
-  
+}
+
+/* Media query for very small devices (up to 480px) */
+@media screen and (max-width: 480px) {
+  .regSteps_text__WIIqF {
+    font-size: 0.3rem; /* Even smaller font size for very small screens */
+    padding: 30px; /* Further reduce padding for very small screens */
+  }
+}
+
+
+.heading_h2__kkLcC {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+// Other custom styles as needed

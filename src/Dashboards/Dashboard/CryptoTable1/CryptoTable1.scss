@@ -1,0 +1,174 @@
+.crypto-table {
+    padding: 20px;
+    border: 1px solid #151515;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #131720;
+    color: white;
+  
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+  
+      thead {
+        th {
+          padding: 10px;
+          font-weight: bold;
+          border-bottom: 2px solid #ddd;
+        }
+      }
+  
+      tbody {
+        tr {
+          &:hover {
+            background-color: #460cb3;
+          }
+  
+          td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+  
+            .star {
+              font-size: 20px;
+              cursor: pointer;
+              color: #ccc;
+  
+              &.favorite {
+                color: yellow;
+              }
+            }
+  
+            .positive {
+              color: green;
+            }
+  
+            .negative {
+              color: red;
+            }
+  
+            .chart {
+              width: 40px;
+              height: 20px;
+              display: inline-block;
+              border-radius: 4px;
+  
+              &.upward {
+                background: linear-gradient(135deg, green, lightgreen);
+              }
+  
+              &.downward {
+                background: linear-gradient(135deg, red, pink);
+              }
+            }
+  
+            .request-button {
+              background-color: #320d88;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              cursor: pointer;
+              border-radius: 4px;
+              transition: background-color 0.3s;
+  
+              &:hover:not(:disabled) {
+                background-color: silver;
+              }
+  
+              &:disabled {
+                background-color: #333;
+                cursor: not-allowed;
+                color: #888;
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    // Mobile and Tablet responsiveness
+    @media (max-width: 1024px) {
+      padding: 15px;  // Adjust padding for tablets
+  
+      table {
+        font-size: 14px;  // Reduce font size for readability on smaller screens
+  
+        thead th {
+          padding: 8px;  // Adjust padding for header
+        }
+  
+        tbody td {
+          padding: 8px;  // Reduce padding for table rows
+        }
+  
+        .star {
+          font-size: 18px;  // Reduce star icon size
+        }
+  
+        .request-button {
+          padding: 6px 10px;  // Adjust button padding for smaller screens
+        }
+      }
+    }
+  
+    @media (max-width: 768px) {
+      padding: 10px;  // Reduce padding for smaller screens
+  
+      table {
+        font-size: 12px;  // Further reduce font size for mobile devices
+  
+        thead th {
+          padding: 6px;  // Further reduce padding for header
+        }
+  
+        tbody td {
+          padding: 6px;  // Further reduce padding for table rows
+        }
+  
+        .star {
+          font-size: 16px;  // Make star icons smaller for mobile
+        }
+  
+        .request-button {
+          padding: 5px 8px;  // Make button smaller for mobile
+        }
+      }
+    }
+  
+    @media (max-width: 480px) {
+      padding: 8px;  // Minimal padding for very small screens
+  
+      table {
+        font-size: 10px;  // Reduce font size for small devices
+  
+        thead th {
+          padding: 4px;  // Minimal padding for header
+        }
+  
+        tbody td {
+          padding: 4px;  // Minimal padding for table rows
+        }
+  
+        .star {
+          font-size: 14px;  // Make star icons even smaller
+        }
+  
+        .request-button {
+          padding: 4px 6px;  // Smaller button size
+        }
+      }
+    }
+    
+    // Make the table scrollable on small screens
+    @media (max-width: 768px) {
+      overflow-x: auto;  // Allow horizontal scrolling on smaller screens
+      -webkit-overflow-scrolling: touch;  // Smooth scrolling for mobile
+      display: block;  // Ensure the table is displayed as a block to enable scrolling
+    }
+  }
+  

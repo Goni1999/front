@@ -32,6 +32,8 @@ $table-row-hover: #f9f9f9;
 
   th, td {
     padding: 12px 15px;
+    text-align: center; /* Center the text in header */
+
   }
 
   tbody tr {
@@ -48,6 +50,19 @@ $table-row-hover: #f9f9f9;
 
   tbody tr:hover {
     background-color: darken($table-row-hover, 5%);
+  }
+
+  // Set width for all td elements in the table
+  td {
+    width: 70px;
+  }
+
+  // Apply width of 50px to inputs
+  td input {
+    width: 50px;
+    padding: 5px;
+    font-size: 0.9em;
+    text-align: center;
   }
 }
 

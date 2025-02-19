@@ -1,5 +1,100 @@
+$primary-color: #bc8c62;
+$secondary-color: #444;
+$background-color: #ffffff;
+$border-radius: 8px;
+$font-family: 'Poppins', sans-serif;
+
+
 .Services{
     h1{
         text-decoration: underline;
+    }
+}
+.reportcase{
+    justify-items: center;
+}
+
+
+  // Investment Section Styling
+  .about-investments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+    margin-top: 60px;
+
+    .investment-types {
+      text-align: center;
+      h2 {
+        font-size: 28px;
+        font-weight: 600;
+        color: $primary-color;
+        margin-bottom: 25px;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.7;
+        color: $secondary-color;
+        margin-bottom: 60px;
+      }
+
+      .investment-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .investment-item {
+          background-color: #fff;
+          border-radius: $border-radius;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          margin: 15px;
+          padding: 20px;
+          max-width: 300px;
+          text-align: center;
+          transition: transform 0.3s ease;
+
+          h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: $primary-color;
+            margin-bottom: 10px;
+          }
+
+          p {
+            font-size: 14px;
+            color: $secondary-color;
+            line-height: 1.6;
+          }
+
+          &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+    }
+
+    .investment-image {
+      img {
+        width: 100%;
+        max-width: 1200px;
+        border-radius: $border-radius;
+        margin-top: 30px;
+      }
+    }
+  }
+
+
+  .padding-home{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .padding-home{
+        padding-right: 0px;
+        padding-left: 0px;
     }
 }

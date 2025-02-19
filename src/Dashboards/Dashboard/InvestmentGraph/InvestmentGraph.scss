@@ -6,7 +6,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
   color: white;
-
+  margin: 0 auto; // Center the component horizontally
 
   .title {
     text-align: center;
@@ -34,6 +34,44 @@
 
     strong {
       color: #00c853;
+    }
+  }
+
+  // Responsive Design for smaller screens
+  @media (max-width: 1024px) {
+    max-width: 90%; // Increase the width for tablet screens to make use of space
+    padding: 15px; // Adjust padding for tablets
+  }
+
+  @media (max-width: 768px) {
+    max-width: 90%; // Ensure the component fits the width on smaller devices
+    padding: 10px; // Reduce padding for small devices
+    .title {
+      font-size: 1.2rem; // Reduce font size of the title for better readability on small screens
+    }
+
+    .details {
+      font-size: 0.9rem; // Reduce font size for details text
+    }
+
+    .chart-container {
+      margin-bottom: 15px; // Adjust margin for the chart container
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%; // Allow the component to take full width on mobile screens
+    padding: 10px; // Padding adjustment for mobile view
+    .title {
+      font-size: 1rem; // Further reduce title font size for mobile screens
+    }
+
+    .details {
+      font-size: 0.85rem; // Further reduce details text for mobile screens
+    }
+
+    .chart-container {
+      margin-bottom: 10px; // Reduce margin for mobile screens
     }
   }
 }

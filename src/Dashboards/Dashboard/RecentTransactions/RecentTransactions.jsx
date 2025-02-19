@@ -27,12 +27,7 @@ const transactions = [
     time: "Today, 2:20 PM",
     amount: "$26,120",
   },
-  {
-    logo: "https://cryptologos.cc/logos/solana-sol-logo.png", // Solana logo
-    name: "Solana (SOL)",
-    time: "Today, 5:10 PM",
-    amount: "$50,000",
-  },
+  
 ];
 
 const RecentTransactions = () => {

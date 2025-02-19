@@ -4,7 +4,7 @@ import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import Services from './pages/Services/Services';
 import Contact from './pages/Contact/Contact';
-import './App.css';
+import styles from './App.css';
 import Blog1 from './components/Blogs/Blog1';
 import Blog2 from './components/Blogs/Blog2';
 import Blog3 from './components/Blogs/Blog3';
@@ -18,13 +18,18 @@ import Transactions from './Dashboards/Dashboard/Transactions/Transactions';
 import Exchange from './pages/Exchange/Exchange';
 import Prices from './pages/Prices/Prices';
 import Profile from './pages/Profile/Profile';
-
+import NotVerified from './Dashboards/NotVerified/NotVerified';
+import KYCForm from './Dashboards/KYCForm/KYCForm';
+import Pending from './Dashboards/Pending/Pending';
+import VerifyEmail from './Dashboards/VerifyEmail/VerifyEmail';
 
 function App() {
+  const isDashboard = window.location.pathname === '/dashboard';
+
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
+      <div  className={`${styles.App} ${isDashboard ? styles.dashboard : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -39,7 +44,7 @@ function App() {
           <Route path="/exchange" element={<Exchange />} />
           <Route path="/prices" element={<Prices />} />
           <Route path="/profile" element={<Profile />} />
-
+          <Route path='/verify-email' element={<VerifyEmail />} />
           <Route
             path="/dashboard"
             element={
@@ -58,8 +63,31 @@ function App() {
             }
           />
 
+<Route
+            path="/not-verified"
+            element={
+              <ProtectedRoute requiredRole="notverified">
+                <NotVerified />
+              </ProtectedRoute>
+            }
+          />
+<Route
+            path="/kyc-verification"
+            element={
+              <ProtectedRoute requiredRole="emailverified">
+                <KYCForm />
+              </ProtectedRoute>
+            }
+          />
 
-
+<Route
+            path="/pending"
+            element={
+              <ProtectedRoute requiredRole="pending">
+                <Pending />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>

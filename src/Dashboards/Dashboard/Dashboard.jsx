@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import HeaderDashboard from '../Dashboard/HeaderDashboard/HeaderDashboard';
+import React, { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
+import HeaderDashboard from '../Dashboard/HeaderDashboard/HeaderDashboard';
 import MonthlyGrowth from './MonthlyGrowth/MonthlyGrowth';
 import RecentTransactions from './RecentTransactions/RecentTransactions';
 import CryptoCards from './CardCrypto/CryptoCards'; 
 import BalanceDonut from './BalanceDonut/BalanceDonut';
+import './Dashboard.scss'; // External stylesheet for better styling
+import Footer from '../../components/Footer/Footer';
+import CryptoData from '../../components/CryptoData/CryptoData';
+import CoinsTable from '../../components/CoinsTable/CoinsTable';
 
 const userData = [
   { name: 'Bitcoin', percentage: 40, valueInUSD: 25000, amount: 0.5 },
@@ -13,48 +17,59 @@ const userData = [
   { name: 'Others', percentage: 10, valueInUSD: 2500, amount: 20 },
 ];
 
-
 const DashboardLayout = () => {
-  const [userName, setUserName] = useState('');
+  const [sidebarActive, setSidebarActive] = useState(false);
 
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
-    if (loggedInUser && loggedInUser.name) {
-      setUserName(loggedInUser.name);
-    }
-  }, []);
+  const toggleSidebar = () => {
+    setSidebarActive(!sidebarActive);
+  };
 
   return (
-    <div style={{backgroundColor: '#131720'}}>
-      <HeaderDashboard
-        logoSrc="./images/logo.png"
-        bellIconSrc="/path/to/bell-icon.png"
-        userName="User"
+    <div className="dashboard-container">
+      <HeaderDashboard 
+        toggleSidebar={toggleSidebar}
+        sidebarActive={sidebarActive}
       />
-      <Sidebar />
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gridTemplateColumns: "1fr 1fr",
-        marginLeft: "21%",
-        marginTop: "20px",
-        
-      }}>
-    <div>
-      <BalanceDonut data={userData} />
-    </div>
-        <div style={{
-          position:'absolute',
-          marginLeft:'34%',
-          width: "60%",
-      }}>
-        <MonthlyGrowth />
-        </div>
-        <CryptoCards />
-        <RecentTransactions />
 
+      <Sidebar 
+        sidebarActive={sidebarActive}
+        toggleSidebar={toggleSidebar}
+      />
+
+      <div className="dashboard-content">
+        <div className="dashboard-row">
+          {/* First Row (BalanceDonut and MonthlyGrowth side-by-side) */}
+          <div className="dashboard-card">
+            <BalanceDonut data={userData} />
+            <MonthlyGrowth />
+          </div>
+          <br />
+          <div className="dashboard-card full-width">
+            <CoinsTable />
+          </div>
         </div>
+        <br />
+        <br />
+
+        {/* Second Row (CryptoCards) */}
+        <div className="dashboard-card full-width">
+          <CryptoCards />
+        </div>
+        <br />
+        <br />
+        <div className="dashboard-card full-width">
+          <CryptoData />
+        </div>
+        <br />
+        <br />
+        {/* Third Row (RecentTransactions) */}
+        <div className="dashboard-card full-width">
+          <RecentTransactions />
+        </div>
+        <br />
       </div>
+
+    </div>
     
   );
 };

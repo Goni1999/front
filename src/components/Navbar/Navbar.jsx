@@ -6,23 +6,21 @@ import LogIn from '../LogIn/LogIn';
 import ReportCaseModal from '../ReportCaseModal/ReportCaseModal';
 
 const Navbar = () => {
-    const [user, setUser] = useState(null); // State to manage user authentication
-    const [showSignUp, setShowSignUp] = useState(false); // State to toggle SignUp modal
-    const [showLogIn, setShowLogIn] = useState(false); // State to toggle LogIn modal
-    const [isDarkMode, setIsDarkMode] = useState(
-        localStorage.getItem('isDarkMode') === 'true' // Load dark mode state from localStorage
-    );
+    const [user, setUser] = useState(null);
+    const [showSignUp, setShowSignUp] = useState(false);
+    const [showLogIn, setShowLogIn] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode') === 'true');
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const toggleSignUp = () => setShowSignUp(!showSignUp); // Toggle SignUp modal
-    const toggleLogIn = () => setShowLogIn(!showLogIn); // Toggle LogIn modal
+    const toggleSignUp = () => setShowSignUp(!showSignUp);
+    const toggleLogIn = () => setShowLogIn(!showLogIn);
 
     const toggleDarkMode = () => {
         const newDarkModeState = !isDarkMode;
-        setIsDarkMode(newDarkModeState); // Update state
-        localStorage.setItem('isDarkMode', newDarkModeState); // Save state to localStorage
+        setIsDarkMode(newDarkModeState);
+        localStorage.setItem('isDarkMode', newDarkModeState);
     };
 
-    // Apply or remove dark mode class on body
     useEffect(() => {
         if (isDarkMode) {
             document.body.classList.add('dark-mode');
@@ -32,72 +30,82 @@ const Navbar = () => {
     }, [isDarkMode]);
 
     const handleSignOut = () => {
-        setUser(null); // Clear user state on sign-out
+        setUser(null);
         alert("You have successfully signed out.");
+    };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
     return (
         <>
             <nav className={`navbar ${isDarkMode ? 'dark-mode' : ''}`}>
                 <Link to="/">
-                <div className="navbar-logo">
-                    <img className="img-logo" src="/images/logo.png" alt="Logo" />
-                </div>
+                    <div className="navbar-logo">
+                        <img className="img-logo" width={150} src="/images/logo.png" alt="Logo" />
+                    </div>
                 </Link>
-                <ul className="navbar-links">
+
+                {/* Hamburger Button for Mobile */}
+                <button className="navbar-hamburger" onClick={toggleMobileMenu}>
+                    <span className="hamburger-icon">☰</span>
+                </button>
+
+                {/* Navigation Links (visible on desktop and toggleable on mobile) */}
+                <ul className={`navbar-links ${isMobileMenuOpen ? 'open' : ''}`}>
                     <li className="navbar-item"><Link to="/">Home</Link></li>
                     <li className="navbar-item"><Link to="/contactus">Inform Us Now</Link></li>
                     <li className="navbar-item"><Link to="/about">About</Link></li>
-                    <li className="navbar-item"><a href="/services">Services</a></li>
-                    <li className="navbar-item"><a href="/contact">FAQ</a></li>
-                    
-                </ul>
-                <ReportCaseModal />
-                <div className="auth-buttons">
+                    <li className="navbar-item"><Link to="/services">Services</Link></li>
+                    <li className="navbar-item"><Link to="/contact">FAQ</Link></li>
+
+                    {/* Auth Buttons inside the mobile menu */}
                     {user ? (
-                        <div className="user-dropdown">
-                            <span>{user.name}</span>
-                            <div className="dropdown-menu">
-                                <button onClick={handleSignOut}>Sign Out</button>
+                        <li className="navbar-item">
+                            <div className="user-dropdown">
+                                <span>{user.name}</span>
+                                <div className="dropdown-menu">
+                                    <button onClick={handleSignOut}>Sign Out</button>
+                                </div>
                             </div>
-                        </div>
+                        </li>
                     ) : (
                         <>
-                            <button className="auth-button sign-up" onClick={toggleSignUp}>
-                                Sign Up
-                            </button>
-                            <button className="auth-button log-in" onClick={toggleLogIn}>
-                                Log In
-                            </button>
+                            
+                            <li className="navbar-item">
+                                <button className="auth-button-log-in" onClick={toggleLogIn}>Log In</button>
+                            </li>
+                            <li className="navbar-item">
+                                <button className="auth-button-sign-up" onClick={toggleSignUp}>Sign Up</button>
+                            </li>
                         </>
                     )}
-                    {/* Dark Mode Toggle Button */}
-                    <button className="theme-toggle" onClick={toggleDarkMode}>
-                        {isDarkMode ? '☀️' : '🌙'}
-                    </button>
-                </div>
+
+                    {/* Dark Mode Toggle inside the mobile menu 
+                    <li className="navbar-item">
+                        <button className="theme-toggle" onClick={toggleDarkMode}>
+                            {isDarkMode ? '☀️' : '🌙'}
+                        </button>
+                    </li>*/}
+                </ul>
             </nav>
 
-            {/* Sign Up Modal */}
+            {/* Modals for SignUp and LogIn */}
             {showSignUp && (
                 <div className="modal-overlay" onClick={toggleSignUp}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <SignUp onSignUpSuccess={setUser} />
-                        <button className="close-button" onClick={toggleSignUp}>
-                            Close
-                        </button>
+                        <button className="close-button" onClick={toggleSignUp}>Close</button>
                     </div>
                 </div>
             )}
 
-            {/* Log In Modal */}
             {showLogIn && (
                 <div className="modal-overlay" onClick={toggleLogIn}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <LogIn onLoginSuccess={setUser} />
-                        <button className="close-button" onClick={toggleLogIn}>
-                            Close
-                        </button>
+                        <button className="close-button" onClick={toggleLogIn}>Close</button>
                     </div>
                 </div>
             )}

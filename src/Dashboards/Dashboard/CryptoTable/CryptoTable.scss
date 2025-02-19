@@ -1,98 +1,73 @@
-.crypto-table {
-    padding: 20px;
-    border: 1px solid #151515;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: #131720;
-    color: white;
-  
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: white;
-    }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-  
-      thead {
- 
-  
-        th {
-          padding: 10px;
-          font-weight: bold;
-          border-bottom: 2px solid #ddd;
-        }
-      }
-  
-      tbody {
-        tr {
-  
-          &:hover {
-            background-color: #460cb3;
-          }
-  
-          td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-  
-            .star {
-              font-size: 20px;
-              cursor: pointer;
-              color: #ccc;
-  
-              &.favorite {
-                color: yellow;
-              }
-            }
-  
-            .positive {
-              color: green;
-            }
-  
-            .negative {
-              color: red;
-            }
-  
-            .chart {
-              width: 40px;
-              height: 20px;
-              display: inline-block;
-              border-radius: 4px;
-  
-              &.upward {
-                background: linear-gradient(135deg, green, lightgreen);
-              }
-  
-              &.downward {
-                background: linear-gradient(135deg, red, pink);
-              }
-            }
-  
-            .request-button {
-              background-color: #320d88;
-              color: white;
-              border: none;
-              padding: 8px 12px;
-              cursor: pointer;
-              border-radius: 4px;
-              transition: background-color 0.3s;
-            
-              &:hover:not(:disabled) {
-                background-color: silver;
-              }
-            
-              &:disabled {
-                background-color: #333;
-                cursor: not-allowed;
-                color: #888;
-              }
-            }
-            
-          }
-        }
-      }
-    }
+.crypto-data-containerr {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ddd;
+  border-radius: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: rgb(0, 0, 0);
+}
+
+.crypto-tablee {
+  overflow-x: auto; 
+  background-color: #ddd;
+  color: black; /* Make the table horizontally scrollable on small screens */
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+tr {
+  background-color: #ddd;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #ddd;
+  font-weight: bold;
+}
+}
+.crypto-roww {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.crypto-roww:hover {
+  background-color: #f1f1f1;
+}
+
+.coin-logoo {
+  display: flex;
+  align-items: center;
+}
+
+.coin-logo11 {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 14px; /* Adjust font size for mobile view */
   }
-  
+
+  th, td {
+    padding: 8px;
+  }
+
+  .coin-logoo {
+    font-size: 14px; /* Adjust font size for mobile */
+  }
+}

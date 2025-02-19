@@ -13,7 +13,7 @@ const CryptoCards = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('https://api.coinlore.net/api/tickers/');
-        const selectedCoins = response.data.data.slice(0, 6); // Get data for 5 coins
+        const selectedCoins = response.data.data.slice(0, 4); // Get data for 5 coins
 
         const coinsWithChart = selectedCoins.map((coin) => {
           const prices = Array.from({ length: 12 }, () => Math.random() * coin.price_usd); // Simulate 12 months of price data
@@ -53,15 +53,19 @@ const CryptoCards = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="crypto-cards-container">
+    <div className="recent-transactions">
+            <h2 className="title">Live Coins</h2>
+            <div className="transaction-list">
+
       {cryptoData.map((coin) => (
-        <div key={coin.name} className="crypto-card">
+        <div key={coin.name} className="transaction-card">
           <div className="card-header">
             <span className="coin-name">{coin.name}</span>
             <span className="coin-price">${coin.price}</span>
-          </div>
-          <div className="card-body">
-            <img src={coin.logo} alt={`${coin.name} logo`} className="coin-logo" />
+          
+            <img src={coin.logo} alt={`${coin.name} logo`} className="currency-logo" />
+            <div className="transaction-details">
+
             <Line
               data={coin.chartData}
               options={{
@@ -70,9 +74,11 @@ const CryptoCards = () => {
                 elements: { point: { radius: 0 } },
               }}
             />
+            </div>
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };

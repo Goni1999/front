@@ -1,0 +1,78 @@
+/* Global styles for the dashboard container */
+.dashboard-container {
+    background-color: #131720;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  /* Dashboard content with padding depending on sidebar state */
+  .dashboard-container.sidebar-active .dashboard-content {
+    padding-left: 70%; /* Adjust main content when sidebar is active */
+  }
+  
+  .dashboard-content {
+    flex: 1;
+    margin-top: 20px;
+   padding-right: 50px;
+   padding-left: 50px;
+    transition: padding-left 0.3s ease;
+    width: 80%;
+    align-self: end;
+  }
+  
+  /* Grid layout for dashboard rows */
+  .dashboard-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Responsive card container */
+  .dashboard-card {
+    background-color: #1f2a34;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  /* Full-width card style */
+  .dashboard-card.full-width {
+    width: 100%;
+  }
+  
+  .dashboard-card > * {
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    
+    .dashboard-content {
+      flex: 1;
+      margin-top: 20px;
+     padding-right: 3px;
+     padding-left: 3px;
+      transition: padding-left 0.3s ease;
+      width: 100%;
+    }
+    
+    .dashboard-row {
+      flex-direction: column;
+    }
+  
+    .dashboard-card {
+      width: 100%;
+      display: flex;
+    flex-direction: column;
+    }
+  
+    /* Adjust sidebar toggle behavior for mobile */
+    .dashboard-container.sidebar-active .dashboard-content {
+      padding-left: 0;
+    }
+  }
+  

@@ -1,78 +1,183 @@
 .crypto-card-1 {
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 14px 0;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #171f2a;
-    color: white;
-  
-    .top-section-1 {
-      .header-1 {
-        display: flex;
-        align-items: center;
-        margin-bottom: 16px;
-  
-        .coin-logo-1 {
-          width: 50px;
-          height: 50px;
-          margin-right: 16px;
-        }
-  
-        .coin-info-1 {
-          h3 {
-            margin: 0;
-            font-size: 25px;
-          }
-  
-          .coin-dropdown-1 {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-          }
-        }
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 14px 0;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #171f2a;
+  color: white;
+  width: 100%;  // Make sure the card is responsive and doesn't overflow
+
+  .top-section-1 {
+    .header-1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .coin-logo-1 {
+        width: 50px;
+        height: 50px;
+        margin-right: 16px;
       }
-  
-      .price-details-1 {
-        p {
-          font-size: 20px;
-          margin: 8px 0;
+
+      .coin-info-1 {
+        h3 {
+          margin: 0;
+          font-size: 25px;
         }
-  
-        .positive-1 {
-          color: green;
-        }
-  
-        .negative-1 {
-          color: red;
+
+        .coin-dropdown-1 {
+          margin-top: 10px;
+          padding: 10px;
+          background-color: black;
+          color: white;
+          border-radius: 5px;
+          border: 1px solid #ddd;
         }
       }
     }
-  
-    .bottom-section-1 {
-      display: flex;
-      justify-content: space-around;
-      gap: 570px;
-  
-      .column-1 {
-        p {
-          margin: 8px 0;
-  
-          .arrow {
-            &.up {
-              color: green;
-            }
-  
-            &.down {
-              color: red;
-            }
+
+    .price-details-1 {
+      p {
+        font-size: 20px;
+        margin: 8px 0;
+      }
+
+      .positive-1 {
+        color: green;
+      }
+
+      .negative-1 {
+        color: red;
+      }
+    }
+  }
+
+  .bottom-section-1 {
+    display: flex;
+    justify-content: space-around;
+    gap: 570px;
+
+    .column-1 {
+      p {
+        margin: 8px 0;
+
+        .arrow {
+          &.up {
+            color: green;
+          }
+
+          &.down {
+            color: red;
           }
         }
       }
     }
   }
-  
+
+  // Responsive Design for smaller screens
+  @media (max-width: 1024px) {
+    max-width: 90%; // Increase width for tablets
+    padding: 15px; // Adjust padding for tablets
+
+    .top-section-1 {
+      .header-1 {
+        flex-direction: column; // Stack logo and info vertically on tablets
+        align-items: flex-start; // Align items to the start
+        margin-bottom: 12px; // Reduce margin
+
+        .coin-logo-1 {
+          margin-bottom: 10px; // Add space below logo for better spacing
+        }
+      }
+
+      .price-details-1 {
+        p {
+          font-size: 18px; // Reduce font size for better readability on smaller screens
+        }
+      }
+    }
+
+    .bottom-section-1 {
+      display: block; // Stack bottom section on smaller screens
+      gap: 0; // Remove large gap between columns
+
+      .column-1 {
+        p {
+          font-size: 16px; // Adjust font size for smaller devices
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%; // Take full width on mobile screens
+    padding: 10px; // Reduce padding for mobile screens
+
+    .top-section-1 {
+      .header-1 {
+        flex-direction: column; // Stack logo and info vertically
+        align-items: flex-start; // Align items to the left
+        margin-bottom: 10px; // Adjust margin
+
+        .coin-logo-1 {
+          margin-right: 0;
+          margin-bottom: 8px; // Add margin below logo on small screens
+        }
+      }
+
+      .price-details-1 {
+        p {
+          font-size: 16px; // Adjust font size for better readability on mobile screens
+        }
+      }
+    }
+
+    .bottom-section-1 {
+      display: block; // Stack bottom section on smaller screens
+      gap: 0; // Remove gap for mobile screens
+
+      .column-1 {
+        p {
+          font-size: 14px; // Further reduce font size for mobile
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px; // Reduce padding for very small devices
+
+    .top-section-1 {
+      .header-1 {
+        flex-direction: column; // Ensure stacking of header elements
+        align-items: flex-start; // Align to the left
+        margin-bottom: 8px; // Smaller margin for mobile
+
+        .coin-logo-1 {
+          width: 40px; // Slightly smaller logo size on mobile
+          height: 40px;
+          margin-bottom: 6px; // Reduce bottom margin for tighter layout
+        }
+      }
+
+      .price-details-1 {
+        p {
+          font-size: 14px; // Reduce font size further for small devices
+        }
+      }
+    }
+
+    .bottom-section-1 {
+      display: block; // Stack content vertically on very small screens
+      gap: 0; // Remove unnecessary gaps
+
+      .column-1 {
+        p {
+          font-size: 12px; // Very small font size for small devices
+        }
+      }
+    }
+  }
+}

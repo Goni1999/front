@@ -1,93 +1,143 @@
+/* General Header Styling */
 .header-dashboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #212B39;
+  background-color: #171f2a;
   color: white;
   position: sticky;
-  top: 0; /* Makes the header stick to the top during scrolling */
-  z-index: 100;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+.sidebar-toggle:hover{
+  background-color: transparent;
+}
+.logo {
+  width: 150px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* Header-right section (bell icon and dropdown) */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-button {
+  background: transparent;
+  border: none;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.bell-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.welcome-text {
+  margin-right: 10px;
+}
+
+.dropdown-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #1d2c3a;
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.button-menu {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-menu:hover {
+  background-color: #3c4b61;
+}
+
+.signout-menu {
+  background: transparent;
+  border: none;
+  color: #ff4d4f;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.signout-menu:hover {
+  background-color: #ff8c8f;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 1024px) {
+  .sidebar-toggle {
+    display: block; /* Show hamburger menu button on smaller screens */
+  }
 
   .header-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-
-    h2{
-      font-size: 26px;
-      color: white;
-    }
-
-    .logo {
-      height: 130px;
-      width: 200px;
-      margin-left: 20px;
-      cursor: pointer;
-    }
+    flex: 1;
+    justify-content: space-between;
   }
 
   .header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: none; /* Hide notifications and dropdown on mobile */
+  }
 
-    .notification-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-
-      .bell-icon {
-        height: 32px;
-      }
-    }
-
-    .dropdown {
-      position: relative;
-
-      .welcome-text {
-        margin-right: 10px;
-        font-weight: bold;
-        font-size: 22px;
-      }
-
-      .dropdown-button {
-        background: none;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: red;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border: 1px solid black;
-        border-radius: 15px;
-        z-index: 10;
-        display: none;
-        flex-direction: column;
-
-        button {
-          padding: 10px;
-          border: none;
-          background: none;
-          text-align: left;
-          cursor: pointer;
-
-          &:hover {
-            background-color: darkred;
-            border-radius: 15px;
-          }
-        }
-      }
-
-      &:hover .dropdown-menu {
-        display: flex;
-      }
-    }
+  .dropdown-menu {
+    position: static;
+    background-color: #1d2c3a;
+    box-shadow: none;
+    width: 100%;
+    border-radius: 0;
+  }
+  
+  .header-dashboard {
+    padding: 10px 15px;
   }
 }

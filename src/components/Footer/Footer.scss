@@ -1,59 +1,69 @@
 .footer {
-    background-color: black; 
-    color: #ffffff; 
-    padding: 2rem 1rem;
-    margin-top: 1.5rem;
-  
-    .footer-content {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-  
-      .footer-section {
-        flex: 1;
-        min-width: 250px;
-        margin: 1rem;
-  
-        h4 {
-          font-size: 1.25rem;
-          margin-bottom: 1rem;
-          color: white; // Accent color for headings
-        }
-  
-        p {
-          font-size: 0.9rem;
-          line-height: 1.6;
-          color: white;
-        }
-  
-        ul {
-          list-style: none;
-          padding: 0;
-  
-          li {
-            margin: 0.5rem 0;
-  
-            a {
-              color: white; // Accent color for links
-              text-decoration: none;
-              font-size: 0.9rem;
-  
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
+  background: linear-gradient(145deg, #0f1b31, #1f3b58);
+  color: #fff;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-section {
+    flex: 1;
+    min-width: 250px;
+
+    h4 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: #00bcd4;
       }
     }
-  
-    .footer-bottom {
-      text-align: center;
-      font-size: 0.8rem;
-      border-top: 1px solid #333333; // Subtle top border
-      padding-top: 1rem;
-      color: white;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    background: #1f3b58;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .footer-section.about-us {
+    img {
+      margin-top: 20px;
+      width: 150px;
+      border-radius: 10px;
     }
   }
-  
+
+  .footer-section.quick-links ul {
+    list-style-type: none;
+    padding: 0;
+    
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  .footer-section.contact a {
+    font-weight: bold;
+  }
+}
