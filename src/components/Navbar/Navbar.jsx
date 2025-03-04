@@ -13,7 +13,6 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const toggleSignUp = () => setShowSignUp(!showSignUp);
-    const toggleLogIn = () => setShowLogIn(!showLogIn);
 
     const toggleDarkMode = () => {
         const newDarkModeState = !isDarkMode;
@@ -74,11 +73,15 @@ const Navbar = () => {
                         <>
                             
                             <li className="navbar-item">
-                                <button className="auth-button-log-in" onClick={toggleLogIn}>Log In</button>
-                            </li>
-                            <li className="navbar-item">
-                                <button className="auth-button-sign-up" onClick={toggleSignUp}>Sign Up</button>
-                            </li>
+                                    <button
+                                        className="auth-button-log-in"
+                                        onClick={() => window.open("https://dashboard.capital-trust.eu/en/signin", "_blank")}
+                                    >
+                                        Log In
+                                    </button>
+                                    </li>
+
+                           
                         </>
                     )}
 
